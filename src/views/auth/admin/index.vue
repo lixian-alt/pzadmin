@@ -94,11 +94,11 @@ const tableData = reactive({
   total: 0
 })
 
-let options = []
+let options = ref([])
 onMounted(() => {
   getListData()
   menuSelectList().then(({ data }) => {
-    options = data.data
+    options.value = data.data
   })
 })
 
@@ -152,7 +152,7 @@ const confirm = async (formEl) => {
 }
 
 const permissionsName = (permissions_id) => {
-  const data = options.find(el => el.id === permissions_id)
+  const data = options.value.find(el => el.id === permissions_id)
   return data ? data.name : '超级管理员'
 }
 </script>

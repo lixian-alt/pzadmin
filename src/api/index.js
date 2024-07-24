@@ -77,3 +77,8 @@ export const adminOrder = (params) => {
 export const updateOrder = (data) => {
     return request.post('/update/order', data)
 }
+
+// 菜单权限
+export const menuPermissions = (params) => {
+    return request.get('/menu/permissions', { params })
+}
