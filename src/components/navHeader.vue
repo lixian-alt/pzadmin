@@ -76,9 +76,9 @@ const closeTab = (item, index) => {
 const userInfo = reactive(JSON.parse(localStorage.getItem('userInfo')))
 const handleClick = (command) => {
   if (command === 'cancel') {
-    console.log('登出')
     localStorage.removeItem('token')
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('vuex')
     // 清除cookie中的menu
     // 跳转到登录页
     router.push('/login')

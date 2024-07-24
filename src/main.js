@@ -9,6 +9,14 @@ import store from './store'
 import PanelHead from './components/panelHead.vue'
 
 
+const storeageStore = localStorage.getItem('vuex')
+if (storeageStore) {
+  store.commit('dynamicMenu', JSON.parse(storeageStore).menu.routerList)
+  store.state.menu.routerList.forEach(item => {
+    router.addRoute("main", item)
+  })
+}
+
 router.beforeEach((to, from) => {
   const token = localStorage.getItem('token')
   // 非登陆页面token不存在
