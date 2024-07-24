@@ -1,7 +1,8 @@
 const state = localStorage.getItem('vuex') ? localStorage.getItem('vuex').menu : {
   isCollapse: false,
   selectMenu: [],
-  routerList: []
+  routerList: [],
+  menuActive:'1-1'
 }
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
     if (state.selectMenu.findIndex(item => item.path === payload.path) === -1) {
       state.selectMenu.push(payload)
     }
+  },
+  updateMenuActive(state, value) {
+    state.menuActive = value
   },
   closeMenu(state, item) {
     const index = state.selectMenu.findIndex(val => val.name === item.name)
