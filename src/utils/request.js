@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 
 const http = axios.create({
     // 通用请求的地址前缀
-    baseURL: 'http://127.0.0.1:3300/v3pz',
+    baseURL: 'https://wechatopen.mynatapp.cc/v3pz',
     timeout: 10000, // 超时时间
 })
 

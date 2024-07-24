@@ -19,6 +19,10 @@ export const login = (data) => {
 export const authAdmin = (params={}) => {
     return request.get('/auth/admin', { params })
 }
+// 控制台接口
+export const getControlData = (params={}) => {
+    return request.get('/report', { params })
+}
 
 // 获取头像
 export const photoList = () => {
