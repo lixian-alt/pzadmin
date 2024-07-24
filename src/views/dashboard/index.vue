@@ -1,6 +1,6 @@
 <template>
   <div class="control-container">
-    <panel-head />
+    <panel-head :info="route" />
     <div class="card">
       <div class="user">
         <el-card class="user-card">
@@ -11,13 +11,13 @@
             </div>
           </template>
           <div class="user-info">
-            <div>上次登录时间：{{ user.timer }}</div>
+            <div>当前权限：{{ user.permission }}</div>
             <div>登录的ip：{{ user.ip }}</div>
           </div>
         </el-card>
       </div>
       <el-card class="serive-list">
-        <div class="serive-item" v-for="(item, index) in types">
+        <div class="serive-item" v-for="(item, index) in types" :key="index">
           <div class="img-box" :style="{ 'background-color': color[index] }">
             <img :src="imgs[index]" alt="" />
           </div>
@@ -39,8 +39,10 @@
 import { ref, reactive, computed, getCurrentInstance, onMounted } from "vue";
 import * as echarts from "echarts";
 import { getControlData } from "../../api";
+import { useRoute } from 'vue-router'
 
-const { proxy } = getCurrentInstance();
+
+const route = useRoute()
 const echart = ref();
 const user = ref({
   user_img: "",

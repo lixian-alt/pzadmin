@@ -1,6 +1,6 @@
 <template>
   <div class="order-container">
-    <panel-head />
+    <panel-head :info="route" />
     <div class="form">
         <el-form
         :model="searchForm" 
@@ -85,6 +85,9 @@ import { reactive, ref, onMounted, nextTick } from "vue";
 import { InfoFilled } from "@element-plus/icons-vue";
 import { adminOrder, updateOrder } from "../../../api";
 import dayjs from 'dayjs'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 onMounted(() => {
   getList()

@@ -1,6 +1,6 @@
 <template>
   <div class="admin-container">
-    <panel-head />
+    <panel-head :info="route" />
     <el-table :data="tableData.list" stripe style="width: 100%" >
       <el-table-column label="id" prop="id" />
       <el-table-column label="昵称" prop="name" />
@@ -81,7 +81,9 @@
 import { onMounted, reactive, ref, computed } from 'vue'
 import { authAdmin, menuSelectList, updateAuth } from '../../../api'
 import dayjs from 'dayjs'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 // 请求参数
 const paginationData = reactive({
   pageNum: 1,

@@ -1,12 +1,17 @@
 <template>
   <div class="panel-heading">
     <div class="panel-lead">
-      <div class="title">管理员管理</div>
-      <p class="description">一个管理员可以有多个角色组,左侧的菜单根据管理员所拥有的权限进行生成</p>
+      <div class="title">{{props.info.meta.name}}</div>
+      <p class="description">{{props.info.meta.describe}}</p>
     </div>
   </div>
 </template>
 <script setup>
+const props = defineProps({
+  info: {
+    type: Object
+  },
+})
 </script>
 <style lang="less" scoped>
 .panel-heading {

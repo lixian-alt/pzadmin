@@ -99,20 +99,22 @@ const submitForm = (formEl) => {
       if (!formType.value) {
         login(loginForm).then(({ data }) => {
           console.log(data)
-          // 将token放入缓存
-          localStorage.setItem('token', data.data.token)
-          localStorage.setItem('userInfo', JSON.stringify(data.data.userInfo))
-          menuPermissions().then(({ data: permission }) => {
-            // console.log(permission.data, 'permission')
-            store.commit('dynamicMenu', permission.data)
-            console.log(toRaw(routerList.value), 'routerList')
-            console.log(router)
-            toRaw(routerList.value).forEach(item => {
-              router.addRoute("main", item)
+          if (data.code === 10000) {
+            // 将token放入缓存
+            localStorage.setItem('token', data.data.token)
+            localStorage.setItem('userInfo', JSON.stringify(data.data.userInfo))
+            menuPermissions().then(({ data: permission }) => {
+              // console.log(permission.data, 'permission')
+              store.commit('dynamicMenu', permission.data)
+              console.log(toRaw(routerList.value), 'routerList')
+              console.log(router)
+              toRaw(routerList.value).forEach(item => {
+                router.addRoute("main", item)
+              })
+            }).then(() => {
+              router.push('/')
             })
-          }).then(() => {
-            router.push('/')
-          })
+          }
         })
       } else { // 如果是注册页面
         authentication(loginForm).then(() => {

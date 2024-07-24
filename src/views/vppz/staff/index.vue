@@ -1,5 +1,5 @@
 <template>
-    <panel-head />
+    <panel-head :info="route" />
     <div class="btns">
         <el-button @click="openModel(null)" type="primary" size="small" :icon="Plus">新增</el-button>
         <el-popconfirm
@@ -155,7 +155,9 @@ import { reactive, ref, onMounted, nextTick } from 'vue'
 import { Plus, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { photoList, companion, companionList, deleteCompanion } from '../../../api'
 import dayjs from 'dayjs'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 onMounted(() => {
   photoList().then(({ data }) => {
     fileList = data.data

@@ -1,6 +1,6 @@
 <template>
   <div class="group-container">
-    <panel-head />
+    <panel-head :info="route" />
     <div class="btns">
       <el-button @click="open(null)" type="primary" size="small" :icon="Plus"
         >新增</el-button
@@ -69,7 +69,9 @@
 import { Plus, Delete } from "@element-plus/icons-vue";
 import { reactive, ref, onMounted, nextTick } from "vue";
 import { userGetMenu, userSetmenu, menuList } from "../../../api";
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 // 请求参数
 const paginationData = reactive({
   pageNum: 1,
