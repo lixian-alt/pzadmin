@@ -15,13 +15,13 @@
 </template>
 <script setup>
 import { reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import TreeMenu from './treeMenu.vue'
 import { useStore } from 'vuex'
 
-const router = useRouter()
-const menuData = reactive(router.options.routes[0].children)
-console.log(menuData, 'menuData')
+// const router = useRouter()
+// const menuData = reactive(router.options.routes[0].children)
+const menuData = computed(() => store.state.menu.routerList)
 const store = useStore()
 const isCollapse = computed(() => store.state.menu.isCollapse)
 const handleOpen = (key, keyPath) => {

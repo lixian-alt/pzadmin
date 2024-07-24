@@ -34,7 +34,6 @@ const router = useRouter()
 
 // 点击菜单
 const handleClick = (item) => {
-  store.commit('dynamicMenu')
   store.commit('addMenu', item.meta)
   router.push(item.meta.path)
 }

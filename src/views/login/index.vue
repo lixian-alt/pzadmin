@@ -43,13 +43,15 @@
   </el-row>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, computed, toRaw } from 'vue'
 import { UserFilled, Lock } from '@element-plus/icons-vue'
-import { getCode, authentication, login } from '../../api'
+import { getCode, authentication, login, menuPermissions } from '../../api'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { useStore } from "vuex";
 
 const imgUrl = new URL('../../../public/login-head.png', import.meta.url).href
+
 // 表单数据
 const loginForm = reactive({
   userName: '',
@@ -86,6 +88,10 @@ const rules = reactive({
 // 提交表单
 const loginFormRef = ref()
 const router = useRouter()
+const store = useStore();
+
+const routerList = computed(() => store.state.menu.routerList)
+
 const submitForm = (formEl) => {
   formEl.validate((valid, fields) => {
     if (valid) {
@@ -96,7 +102,17 @@ const submitForm = (formEl) => {
           // 将token放入缓存
           localStorage.setItem('token', data.data.token)
           localStorage.setItem('userInfo', JSON.stringify(data.data.userInfo))
-          router.push('/')
+          menuPermissions().then(({ data: permission }) => {
+            // console.log(permission.data, 'permission')
+            store.commit('dynamicMenu', permission.data)
+            console.log(toRaw(routerList.value), 'routerList')
+            console.log(router)
+            toRaw(routerList.value).forEach(item => {
+              router.addRoute("main", item)
+            })
+          }).then(() => {
+            router.push('/')
+          })
         })
       } else { // 如果是注册页面
         authentication(loginForm).then(() => {
