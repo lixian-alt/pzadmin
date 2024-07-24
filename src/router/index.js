@@ -13,7 +13,19 @@ const routes = [
   { 
     path: '/',
     component: Layout,
-    // redirect: '/dashboard',
+    redirect: to => {
+      if (localStorage.getItem('vuex')) {
+        // 是否有二级菜单
+        const child = JSON.parse(localStorage.getItem('vuex')).menu.routerList[0].children
+        if (child) {
+          return child[0].meta.path
+        } else {
+          return JSON.parse(localStorage.getItem('vuex')).menu.routerList[0].meta.path
+        }
+      } else {
+        return '/dashboard'
+      }
+    },
     name: 'main',
     children: [
       // {
@@ -63,7 +75,9 @@ const routes = [
   },
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+export default router

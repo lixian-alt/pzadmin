@@ -9,9 +9,9 @@ const mutations = {
     state.isCollapse = !state.isCollapse
   },
   addMenu(state, payload) {
-    const set = new Set(state.selectMenu)
-    set.add(payload)
-    state.selectMenu = [...set]
+    if (state.selectMenu.findIndex(item => item.path === payload.path) === -1) {
+      state.selectMenu.push(payload)
+    }
   },
   closeMenu(state, item) {
     const index = state.selectMenu.findIndex(val => val.name === item.name)
@@ -21,10 +21,11 @@ const mutations = {
     const modules= import.meta.glob('../views/**/**/*.vue')
     function routerSet(router) {
       router.forEach(route => {
-        if (route.component) {
+        // 判断没有子菜单，拼接路由数据
+        if (!route.children) {
           const url = `../views${route.meta.path}/index.vue`;
           route.component = modules[url]
-        } else if (route.children){
+        } else {
           routerSet(route.children)
         }
       })
