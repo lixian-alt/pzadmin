@@ -105,9 +105,9 @@ const getData = async () => {
 const initEchart = () => {
   let options = {
     grid: {
-      left: 10,
+      left: 40,
       bottom: 0,
-      right: 10,
+      right: 40,
       top: 10,
       containLabel: true,
     },
@@ -248,9 +248,9 @@ onMounted(() => {
 .content {
   padding: 10px;
   background-color: #fff;
-
+  width: 95%;
   .echart {
-    height: 300px;
+    height: 400px;
   }
 }
 </style>
