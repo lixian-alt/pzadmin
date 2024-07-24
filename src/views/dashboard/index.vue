@@ -16,18 +16,17 @@
           </div>
         </el-card>
       </div>
-      <div class="serive-list">
-        <div class="serive-item" v-for="item in types">
-          <img
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-            alt=""
-          />
+      <el-card class="serive-list">
+        <div class="serive-item" v-for="(item, index) in types">
+          <div class="img-box" :style="{ 'background-color': color[index] }">
+            <img :src="imgs[index]" alt="" />
+          </div>
           <div class="text">
             <div class="num">{{ item.num }}</div>
             <div class="name">{{ item.state }}</div>
           </div>
         </div>
-      </div>
+      </el-card>
     </div>
 
     <div class="content">
@@ -89,8 +88,17 @@ const typeList = ref([
     order_money: 100, //总金额
   },
 ]);
+const imgs = ["dzf.png", "dfw.png", "ywc.png", "yqx.png"];
+const color = ["#F05050", "#7266BA", "#23B7E5", "#27C24C"];
 const getData = async () => {
   let res = await getControlData();
+  let data = res?.data?.data;
+  if (data) {
+    user.value = data.user;
+    types.value = data.types;
+    typeList.value = data.typeList;
+    initEchart();
+  }
 };
 const initEchart = () => {
   let options = {
@@ -161,7 +169,6 @@ const initEchart = () => {
 };
 onMounted(() => {
   getData();
-  initEchart();
 });
 </script>
 
@@ -196,26 +203,43 @@ onMounted(() => {
 .serive-list {
   background-color: #fff;
   margin: 20px;
+  height: 269px;
   width: 50%;
   margin-bottom: 40px;
-  display: flex;
-  justify-content: space-between;
-  .serive-item {
-    width: 200px;
+  ::v-deep(.el-card__body) {
     display: flex;
-    img {
-      width: 60px;
-      height: 60px;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-    .num {
-      font-size: 25px;
-      line-height: 40px;
-      font-weight: bold;
-    }
-    .name {
-      font-size: 14px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: center;
+
+    height: 95%;
+    .serive-item {
+      width: 50%;
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      .img-box {
+        width: 70px;
+        height: 70px;
+        text-align: center;
+        margin-right: 10px;
+        border-radius: 5px;
+        img {
+          margin: 5px;
+          width: 60px;
+          height: 60px;
+          border-radius: 5px;
+        }
+      }
+
+      .num {
+        font-size: 25px;
+        line-height: 40px;
+        font-weight: bold;
+      }
+      .name {
+        font-size: 14px;
+      }
     }
   }
 }
