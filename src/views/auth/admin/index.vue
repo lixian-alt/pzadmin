@@ -132,7 +132,7 @@ const rules = ref({
 const form = ref({})
 const handleEdit = (rowData) => {
   dialogFormVisible.value = true
-  form.value = rowData
+  form.value = JSON.parse(JSON.stringify(rowData))
 }
 const formRef = ref()
 const confirm = async (formEl) => {
