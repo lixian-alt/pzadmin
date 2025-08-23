@@ -37,11 +37,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
-import { getCode, userAuthentication, login } from '../../api'
+import { ref, reactive, computed, toRaw, nextTick } from 'vue';
+import { getCode, userAuthentication, login, menuPermissions } from '../../api'
 import { UserFilled, Lock } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { useStore } from 'vuex'
 
 //图片路径
 const imgUrl = new URL('../../../public/login-head.png', import.meta.url).href
@@ -144,7 +145,9 @@ const countdownChange = () => {
 
 const loginFormref = ref()
 const router = useRouter()
+const store = useStore()
 
+const routerList = computed(() => store.state.menu.routerList)
 //表单提交
 const subimitForm = async (formEl) => {
     if (!formEl) return
@@ -169,8 +172,24 @@ const subimitForm = async (formEl) => {
                         //将token和用户信息缓存到浏览器
                         localStorage.setItem('pz_token', data.data.token)
                         localStorage.setItem('pz_userInfo', JSON.stringify(data.data.userInfo))
-                        //跳转到首页
-                        router.push('/')
+                        menuPermissions().then(({ data }) => {
+                            store.commit('dynamicMenu', data.data)
+                            console.log('动态菜单数据:', data.data)
+                            console.log('路由列表:', routerList.value)
+
+                            // 等待下一个tick确保路由数据更新
+                            nextTick(() => {
+                                // 添加动态路由
+                                toRaw(routerList.value).forEach(item => {
+                                    console.log('添加路由:', item)
+                                    router.addRoute('main', item)
+                                })
+
+                                // 路由添加完成后跳转
+                                router.push('/')
+                            })
+                        })
+
                     } else {
                         ElMessage.error('用户名或密码错误')
                     }

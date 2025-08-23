@@ -20,19 +20,13 @@
       </ul>
     </div>
     <div class="header-right">
-      <el-dropdown>
+      <el-dropdown @command="handleClick">
         <div class="el-dropdown-link flex-box">
-          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-          <p class="user-name">User Name</p>
+          <el-avatar :src="userInfo.avatar" />
+          <p class="user-name">{{ userInfo.name }}</p>
         </div>
         <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item disabled>Action 4</el-dropdown-item>
-            <el-dropdown-item divided>Action 5</el-dropdown-item>
-          </el-dropdown-menu>
+          <el-dropdown-item command="cancel">退出</el-dropdown-item>
         </template>
       </el-dropdown>
     </div>
@@ -44,12 +38,25 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router"
 import { useRouter } from "vue-router";
+
+const handleClick = (command) => {
+  if (command === "cancel") {
+    // 处理退出逻辑
+    localStorage.removeItem("pz_token");
+    localStorage.removeItem("user_info");
+    localStorage.removeItem("pz_v3pz");
+    window.location.href = window.location.origin + "/login";
+  }
+}
+
 //拿到store的实例
 const store = useStore();
 //当前的路由对象
 const route = useRoute();
 const router = useRouter();
 const selectMenu = computed(() => store.state.menu.selectMenu);
+
+const userInfo = JSON.parse(localStorage.getItem("pz_userInfo"))
 
 //点击关闭tag
 const closeTab = (item, index) => {

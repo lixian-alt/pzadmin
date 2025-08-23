@@ -1,8 +1,11 @@
 <template>
-  <panel-head />
+
+  <panel-head :route="route" />
+
   <div class="btns">
     <el-button :icon="Plus" type="primary" @click="open(null)" size="small">新增</el-button>
   </div>
+
   <el-table :data="tableData.list" style="width: 100%">
     <el-table-column prop="id" label="id" />
     <el-table-column prop="name" label="昵称" />
@@ -13,11 +16,13 @@
       </template>
     </el-table-column>
   </el-table>
+
   <div class="pagination-info">
     <el-pagination v-model:current-page="paginationData.pageNum" :page-size="paginationData.pageSize"
       :background="false" layout="total, prev, pager, next" :total="tableData.total" @size-change="handleSizeChange"
       @current-change="handleCurrentChange" size="small" />
   </div>
+
   <el-dialog v-model="dialogFormVisible" :before-close="beforeClose" title="添加权限" width="500px">
     <el-form ref="formRef" label-width="100px" label-position="left" :model="form" :rules="rules">
       <el-form-item v-show="false" prop="id">
@@ -38,12 +43,16 @@
       </div>
     </template>
   </el-dialog>
+
 </template>
 
 <script setup>
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { userGetMenu, userSetMenu, menuList } from '../../../api'
 import { Plus } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 
 
