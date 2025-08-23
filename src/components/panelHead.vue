@@ -1,14 +1,18 @@
 <template>
     <div class="panel-heading">
         <div class="panel-lead">
-            <div class="title">菜单管理</div>
-            <p class="description">菜单数据</p>
+            <div class="title">{{ props.route.meta.name }}</div>
+            <p class="description">{{ props.route.meta.describe }}</p>
         </div>
     </div>
 </template>
 <script setup>
 import { ref } from 'vue'
-
+const props = defineProps({
+    route: {
+        type: Object,
+    }
+})
 </script>
 
 <style lang="less" scoped>
