@@ -9,7 +9,7 @@ import store from './store'
 import PanelHead from './components/panelHead.vue'
 
 
-const storeageStore = localStorage.getItem('vuex')
+const storeageStore = localStorage.getItem('v3pz')
 if (storeageStore) {
   store.commit('dynamicMenu', JSON.parse(storeageStore).menu.routerList)
   store.state.menu.routerList.forEach(item => {
@@ -19,6 +19,7 @@ if (storeageStore) {
 
 router.beforeEach((to, from) => {
   const token = localStorage.getItem('token')
+  console.log(token, 'token')
   // 非登陆页面token不存在
   if (to.path !== '/login' && !token) {
     return '/login'

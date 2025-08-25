@@ -1,8 +1,16 @@
-const state = localStorage.getItem('vuex') ? localStorage.getItem('vuex').menu : {
+const persisted = localStorage.getItem('v3pz')
+let initialMenuState
+try {
+  initialMenuState = persisted ? JSON.parse(persisted).menu : null
+} catch (e) {
+  initialMenuState = null
+}
+
+const state = initialMenuState || {
   isCollapse: false,
   selectMenu: [],
   routerList: [],
-  menuActive:'1-1'
+  menuActive: '1-1'
 }
 
 const mutations = {
@@ -22,7 +30,7 @@ const mutations = {
     state.selectMenu.splice(index, 1)
   },
   dynamicMenu(state, payload) {
-    const modules= import.meta.glob('../views/**/**/*.vue')
+    const modules = import.meta.glob('../views/**/**/*.vue')
     function routerSet(router) {
       router.forEach(route => {
         // 判断没有子菜单，拼接路由数据

@@ -2,14 +2,12 @@
   <div class="group-container">
     <panel-head :info="route" />
     <div class="btns">
-      <el-button @click="open(null)" type="primary" size="small" :icon="Plus"
-        >新增</el-button
-      >
+      <el-button @click="open(null)" type="primary" size="small" :icon="Plus">新增</el-button>
     </div>
-    <el-table :data="tableData.list" stripe style="width: 100%" >
+    <el-table :data="tableData.list" stripe style="width: 100%">
       <el-table-column label="id" prop="id" />
       <el-table-column label="昵称" prop="name" />
-      <el-table-column label="菜单权限" prop="permissionName" width="500px"  />
+      <el-table-column label="菜单权限" prop="permissionName" width="500px" />
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="primary" @click="open(scope.row)">编辑</el-button>
@@ -17,44 +15,20 @@
       </el-table-column>
     </el-table>
     <div class="pagination-info">
-      <el-pagination
-        v-model:current-page="paginationData.pageNum"
-        size="small"
-        :background="false"
-        layout="total, prev, pager, next"
-        :total="tableData.total"
-        @current-change="handleCurrentChange"
-      />
+      <el-pagination v-model="paginationData.pageNum" size="small" :background="false" layout="total, prev, pager, next"
+        :total="tableData.total" @current-change="handleCurrentChange" />
     </div>
-    <el-dialog
-      v-model="dialogFormVisible"
-      :before-close="beforeClose"
-      title="添加权限"
-      width="500">
-      <el-form
-        ref="formRef"
-        label-width="100px"
-        label-position="left"
-        :model="form"
-        :rules="rules"
-      >
+    <el-dialog v-model="dialogFormVisible" :before-close="beforeClose" title="添加权限" width="500">
+      <el-form ref="formRef" label-width="100px" label-position="left" :model="form" :rules="rules">
         <el-form-item v-show="false" prop="id">
-          <el-input v-model="form.id" placeholder="请输入昵称"/>
+          <el-input v-model="form.id" placeholder="请输入昵称" />
         </el-form-item>
         <el-form-item label="名称" prop="authName">
           <el-input v-model="form.authName" placeholder="请填写权限名称" />
         </el-form-item>
         <el-form-item label="权限" prop="authInfo">
-          <el-tree
-            ref="treeRef"
-            style="max-width: 600px"
-            :data="permissionData"
-            show-checkbox
-            node-key="id"
-            :default-expanded-keys="[2]"
-            :default-checked-keys="defaultKeys"
-            :props="defaultProps"
-          />
+          <el-tree ref="treeRef" style="max-width: 600px" :data="permissionData" show-checkbox node-key="id"
+            :default-expanded-keys="[2]" :default-checked-keys="defaultKeys" :props="defaultProps" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -120,7 +94,7 @@ const open = (rowData = {}) => {
   dialogFormVisible.value = true;
   nextTick(() => {
     // 如果是编辑
-    if(rowData) {
+    if (rowData) {
       Object.assign(form, { id: rowData.id, authName: rowData.name })
       treeRef.value.setCheckedKeys(rowData.permission)
     }

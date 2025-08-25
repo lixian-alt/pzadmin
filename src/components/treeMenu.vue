@@ -1,51 +1,40 @@
 <template>
-  <template v-for="(item, index) in props.menuData">
-    <el-menu-item
-      v-if="!item.children || item.children.length == 0"
-      :index="`${props.index}-${item.meta.id}`"
-      :key="index"
-      @click="handleClick(item, `${props.index}-${item.meta.id}`)"
-    >
+  <!-- eslint-disable-next-line vue/no-multiple-template-root -->
+  <template v-for="item in props.menuData">
+    <el-menu-item :key="`${props.index}-${item.meta.id}-leaf`"
+      @click="handleClick(item, `${props.index}-${item.meta.id}`)" v-if="!item.children || item.children.length == 0"
+      :index="`${props.index}-${item.meta.id}`">
       <el-icon size="20">
         <component :is="item.meta.icon"></component>
       </el-icon>
       <span>{{ item.meta.name }}</span>
     </el-menu-item>
-    <el-sub-menu
-      v-else
-      :index="`${props.index}-${item.meta.id}`"
-      :key="index + 1"
-    >
+    <el-sub-menu v-else :key="`${props.index}-${item.meta.id}-parent`" :index="`${props.index}-${item.meta.id}`">
       <template #title>
         <el-icon size="20">
           <component :is="item.meta.icon"></component>
         </el-icon>
-        <!-- 这里必须要用span包裹，要不然有bug -->
         <span>{{ item.meta.name }}</span>
       </template>
-      <tree-menu
-        :index="`${props.index}-${item.meta.id}`"
-        :menuData="item.children"
-      />
+      <tree-menu :index="`${props.index}-${item.meta.id}`" :menuData="item.children" />
     </el-sub-menu>
   </template>
 </template>
+
 <script setup>
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-const props = defineProps(["index", "menuData"]);
-const store = useStore();
-const router = useRouter();
-// 点击菜单
-const handleClick = (item, active) => {
-  store.commit("addMenu", item.meta);
-  store.commit("updateMenuActive", active);
+const props = defineProps(["menuData", "index"]);
 
+//创建router实例
+const router = useRouter();
+const store = useStore();
+//点击菜单
+const handleClick = (item, active) => {
+  store.commit("updateMenuActive", active);
+  store.commit("addMenu", item.meta);
   router.push(item.meta.path);
 };
 </script>
-<style lang="less" scoped>
-// .el-menu-item {
-//   min-width: 225px;
-// }
-</style>
+
+<style scoped></style>

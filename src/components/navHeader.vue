@@ -78,10 +78,11 @@ const handleClick = (command) => {
   if (command === 'cancel') {
     localStorage.removeItem('token')
     localStorage.removeItem('userInfo')
-    localStorage.removeItem('vuex')
+    localStorage.removeItem('v3pz')
     // 清除cookie中的menu
     // 跳转到登录页
-    router.push('/login')
+    // router.push('/login')
+    window.location.href = window.location.origin
   }
 }
 </script>

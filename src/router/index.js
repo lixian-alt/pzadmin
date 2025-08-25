@@ -14,13 +14,13 @@ const routes = [
     path: '/',
     component: Layout,
     redirect: to => {
-      if (localStorage.getItem('vuex')) {
+      if (localStorage.getItem('v3pz')) {
         // 是否有二级菜单
-        const child = JSON.parse(localStorage.getItem('vuex')).menu.routerList[0].children
+        const child = JSON.parse(localStorage.getItem('v3pz')).menu.routerList[0].children
         if (child) {
           return child[0].meta.path
         } else {
-          return JSON.parse(localStorage.getItem('vuex')).menu.routerList[0].meta.path
+          return JSON.parse(localStorage.getItem('v3pz')).menu.routerList[0].meta.path
         }
       } else {
         return '/dashboard'
